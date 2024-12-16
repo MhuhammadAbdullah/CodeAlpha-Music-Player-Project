@@ -23,7 +23,9 @@
         </header>
         <div class="player">
 
-            <div class="img-area"><img src="assets/images/[removal.ai]_054c845a-30ed-4e1a-b6fe-85266e89f9ed_channels4_profile.png" alt=""></div>
+            <div class="img-area"><img
+                    src="assets/images/[removal.ai]_054c845a-30ed-4e1a-b6fe-85266e89f9ed_channels4_profile.png" alt="">
+            </div>
 
             <div class="song-details">
                 <h1 class="name">Animation</h1>
@@ -41,6 +43,19 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Add a volume control -->
+            <div class="volume-control">
+                <i class="fa-solid fa-volume-up" id="volume-icon"></i>
+                <div class="volume-slider-container">
+                    <input type="range" id="volume-slider" min="0" max="1" step="0.1" value="0">
+                </div>
+            </div>
+
+            <!-- Audio element to test volume -->
+            <audio id="main-audio" autoplay loop src="your-audio-file.mp3"></audio>
+
+
 
             <div class="controls">
                 <button class="btnC" id="prev">

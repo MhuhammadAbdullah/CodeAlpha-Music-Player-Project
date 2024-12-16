@@ -875,7 +875,10 @@ const wrapper = document.querySelector(".wrapper"),
   progressBar = progressArea.querySelector(".progress-bar"),
   currentTimeEl = wrapper.querySelector(".current-time"),
   maxDurationEl = wrapper.querySelector(".max-duration");
-
+  volumeIcon = document.getElementById("volume-icon");
+  volumeSliderContainer = document.querySelector(".volume-slider-container");
+  volumeSlider = document.getElementById("volume-slider");
+  
 let musicIndex = 0;
 let isMusicPaused = true;
 
@@ -943,11 +946,42 @@ function loadMusic(index) {
   console.log("Loading song at path:", song.src); // Debugging
 }
 
+// // Play music
+// function playMusic() {
+//   wrapper.classList.add("paused");
+//   playPauseBtn.innerHTML = '<i class="fa-solid fa-pause"></i>';
+//   mainAudio.play().catch(error => console.error("Error playing audio:", error));
+// }
+
+// // Pause music
+// function pauseMusic() {
+//   wrapper.classList.remove("paused");
+//   playPauseBtn.innerHTML = '<i class="fa-solid fa-play"></i>';
+//   mainAudio.pause();
+// }
+
+// // Handle prev button click
+// function prevMusic() {
+//   musicIndex = musicIndex === 0 ? musicLibrary.length - 1 : musicIndex - 1;
+//   loadMusic(musicIndex);
+//   playMusic();
+// }
+
+// // Handle next button click
+// function nextMusic() {
+//   musicIndex = (musicIndex + 1) % musicLibrary.length;
+//   loadMusic(musicIndex);
+//   playMusic();
+// }
+// Play music
 // Play music
 function playMusic() {
   wrapper.classList.add("paused");
   playPauseBtn.innerHTML = '<i class="fa-solid fa-pause"></i>';
   mainAudio.play().catch(error => console.error("Error playing audio:", error));
+
+  // Add class to rotate image when music starts
+  wrapper.classList.add("playing");
 }
 
 // Pause music
@@ -955,16 +989,19 @@ function pauseMusic() {
   wrapper.classList.remove("paused");
   playPauseBtn.innerHTML = '<i class="fa-solid fa-play"></i>';
   mainAudio.pause();
+
+  // Remove class to stop image rotation when music is paused
+  wrapper.classList.remove("playing");
 }
 
-// Handle prev button click
+
+// Handle previous and next buttons
 function prevMusic() {
   musicIndex = musicIndex === 0 ? musicLibrary.length - 1 : musicIndex - 1;
   loadMusic(musicIndex);
   playMusic();
 }
 
-// Handle next button click
 function nextMusic() {
   musicIndex = (musicIndex + 1) % musicLibrary.length;
   loadMusic(musicIndex);
@@ -1086,6 +1123,63 @@ document.addEventListener("keydown", (e) => {
 
     default:
       break;
+  }
+});
+
+
+// Set initial state to mute when app loads
+window.onload = function () {
+  mainAudio.volume = 1; // Set initial volume
+  volumeSlider.value = 1; // Sync slider value
+  applyVolumeColor(); // Apply initial color
+  updateVolumeIcon(); // Set initial volume icon
+};
+
+// Toggle slider visibility on icon click
+volumeIcon.addEventListener("click", function (e) {
+  e.stopPropagation();
+  volumeSliderContainer.style.display =
+    volumeSliderContainer.style.display === "block" ? "none" : "block";
+  volumeIcon.classList.toggle("active");
+});
+
+// Adjust the volume slider with user interaction
+volumeSlider.addEventListener("input", function () {
+  mainAudio.volume = volumeSlider.value; // Update audio volume
+  applyVolumeColor();
+  updateVolumeIcon(); // Update icon based on volume level
+});
+
+// Function to change the range color based on volume
+function applyVolumeColor() {
+  if (mainAudio.volume == 1) { // Full volume
+    volumeSlider.style.background = "linear-gradient(to right, #FFFFFF, green)";
+  } else if (mainAudio.volume >= 0.3 && mainAudio.volume < 1) { // Medium volume
+    volumeSlider.style.background = "linear-gradient(to right, orange, #CE380E)";
+  } else { // Low volume
+    volumeSlider.style.background = "linear-gradient(to right, red, #CE380E)";
+  }
+}
+
+// Function to update the volume icon based on volume level
+function updateVolumeIcon() {
+  if (mainAudio.volume == 1) {
+    volumeIcon.className = "fa-solid fa-volume-up"; // Full volume
+  } else if (mainAudio.volume <= 0.5 && mainAudio.volume > 0) {
+    volumeIcon.className = "fa-solid fa-volume-down"; // 50% ya usse kam
+  } else if (mainAudio.volume == 0) {
+    volumeIcon.className = "fa-solid fa-volume-mute"; // Mute
+  }
+}
+
+// Hide slider when clicking outside the volume area
+document.addEventListener("click", function (e) {
+  if (
+    !volumeSliderContainer.contains(e.target) &&
+    !volumeIcon.contains(e.target)
+  ) {
+    volumeSliderContainer.style.display = "none";
+    volumeIcon.classList.remove("active");
   }
 });
 

@@ -246,17 +246,80 @@ img {
         10px 10px 12px -10px -10px 12px #151618, #222529, inset -10px 10px 8px #e5550b, inset 10px 10px 8px #bd2210;
 }
 
-.rotate {
-    animation: rotation .8s infinite linear;
-    transform-origin: center;
+/* General styling for the volume control */
+.volume-control {
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    gap: 10px;
+    margin-top: 15px;
 }
 
-@keyframes rotation {
-    from {
+.volume-control i {
+    font-size: 20px;
+    color: #a7a9a7;
+    cursor: pointer;
+}
+
+/* Range Slider */
+.volume-slider-container {
+    display: none;
+    transition: all 0.1s ease-in-out;
+    /* Smooth animation */
+}
+
+.volume-slider-container input[type="range"] {
+    width: 150px;
+    height: 5px;
+    appearance: none;
+    border-radius: 5px;
+    outline: none;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    background: #CE380E;
+    /* Default orange */
+    display: flex;
+    align-items: center;
+}
+
+/* Slider thumb styling */
+.volume-slider-container input[type="range"]::-webkit-slider-thumb {
+    appearance: none;
+    width: 15px;
+    height: 15px;
+    background: #ffffff;
+    /* White color */
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+/* Hover effect */
+.volume-slider-container input[type="range"]:hover {
+    background: #CE380E;
+}
+
+/* JavaScript will dynamically handle background-color changes */
+
+
+/* General image rotation */
+.img-area img {
+    transition: transform 0.3s ease-in-out;
+    /* Smooth transition */
+}
+
+/* Keyframe for continuous rotation */
+@keyframes rotateImage {
+    0% {
         transform: rotate(0deg);
     }
 
-    to {
-        transform: rotate(359deg);
+    100% {
+        transform: rotate(360deg);
     }
+}
+
+/* Class for when music is playing */
+.playing img {
+    animation: rotateImage 8s linear infinite;
 }
