@@ -973,7 +973,8 @@ function loadMusic(index) {
 //   loadMusic(musicIndex);
 //   playMusic();
 // }
-// Play music
+
+
 // Play music
 function playMusic() {
   wrapper.classList.add("paused");
@@ -995,6 +996,9 @@ function pauseMusic() {
 }
 
 
+
+
+
 // Handle previous and next buttons
 function prevMusic() {
   musicIndex = musicIndex === 0 ? musicLibrary.length - 1 : musicIndex - 1;
@@ -1008,6 +1012,9 @@ function nextMusic() {
   playMusic();
 }
 
+
+
+
 // Update progress bar on music playback
 mainAudio.addEventListener("timeupdate", (e) => {
   const currentTime = e.target.currentTime;
@@ -1016,16 +1023,41 @@ mainAudio.addEventListener("timeupdate", (e) => {
 
   progressBar.style.width = `${progressPercent}%`;
 
-  let currentMin = Math.floor(currentTime / 60);
-  let currentSec = Math.floor(currentTime % 60);
-  currentSec = currentSec < 10 ? `0${currentSec}` : currentSec;
+  // Dynamically change progress bar color based on percentage
+  progressBar.style.background = `linear-gradient(to right, #CE380D ${progressPercent}%, #CE380D 0)`;
+
+  // Update the current time display
+  const currentMin = Math.floor(currentTime / 60);
+  const currentSec = Math.floor(currentTime % 60).toString().padStart(2, "0");
   currentTimeEl.textContent = `${currentMin}:${currentSec}`;
 
-  let totalMin = Math.floor(duration / 60);
-  let totalSec = Math.floor(duration % 60);
-  totalSec = totalSec < 10 ? `0${totalSec}` : totalSec;
+  // Update the total duration display
+  const totalMin = Math.floor(duration / 60);
+  const totalSec = Math.floor(duration % 60).toString().padStart(2, "0");
   maxDurationEl.textContent = `${totalMin}:${totalSec}`;
 });
+
+
+
+
+// // Update progress bar on music playback
+// mainAudio.addEventListener("timeupdate", (e) => {
+//   const currentTime = e.target.currentTime;
+//   const duration = e.target.duration || 1; // Avoid divide-by-zero errors
+//   const progressPercent = (currentTime / duration) * 100;
+
+//   progressBar.style.width = `${progressPercent}%`;
+
+//   let currentMin = Math.floor(currentTime / 60);
+//   let currentSec = Math.floor(currentTime % 60);
+//   currentSec = currentSec < 10 ? `0${currentSec}` : currentSec;
+//   currentTimeEl.textContent = `${currentMin}:${currentSec}`;
+
+//   let totalMin = Math.floor(duration / 60);
+//   let totalSec = Math.floor(duration % 60);
+//   totalSec = totalSec < 10 ? `0${totalSec}` : totalSec;
+//   maxDurationEl.textContent = `${totalMin}:${totalSec}`;
+// });
 
 // Handle play/pause toggle
 playPauseBtn.addEventListener("click", () => {
@@ -1182,4 +1214,5 @@ document.addEventListener("click", function (e) {
     volumeIcon.classList.remove("active");
   }
 });
+
 
