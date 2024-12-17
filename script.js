@@ -308,3 +308,32 @@ document.addEventListener("click", function (e) {
 });
 
 
+// Select the element where the time will be displayed
+const timeElement = document.querySelector(".phone-time p");
+
+// Function to update the time
+function updateTime() {
+  const now = new Date(); // Get current date and time
+
+  let hours = now.getHours(); // Get hours
+  let minutes = now.getMinutes(); // Get minutes
+  let isPM = hours >= 12; // Determine if it's PM
+
+  // Convert hours to 12-hour format
+  hours = hours % 12 || 12;
+
+  // Format minutes to always have 2 digits
+  minutes = minutes.toString().padStart(2, "0");
+
+  // Set AM/PM
+  const period = isPM ? "PM" : "AM";
+
+  // Update the time in the element
+  timeElement.textContent = `${hours}:${minutes} ${period}`;
+}
+
+// Call updateTime once immediately
+updateTime();
+
+// Update the time every second
+setInterval(updateTime, 1000);
