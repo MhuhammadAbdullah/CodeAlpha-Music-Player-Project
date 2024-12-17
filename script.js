@@ -81,9 +81,6 @@ function loadMusic(index) {
   console.log("Loading song at path:", song.src); // Debugging
 }
 
-
-
-
 // Play music
 function playMusic() {
   wrapper.classList.add("paused");
@@ -105,9 +102,6 @@ function pauseMusic() {
 }
 
 
-
-
-
 // Handle previous and next buttons
 function prevMusic() {
   musicIndex = musicIndex === 0 ? musicLibrary.length - 1 : musicIndex - 1;
@@ -120,8 +114,6 @@ function nextMusic() {
   loadMusic(musicIndex);
   playMusic();
 }
-
-
 
 
 // Update progress bar on music playback
@@ -145,10 +137,6 @@ mainAudio.addEventListener("timeupdate", (e) => {
   const totalSec = Math.floor(duration % 60).toString().padStart(2, "0");
   maxDurationEl.textContent = `${totalMin}:${totalSec}`;
 });
-
-
-
-
 
 
 // Handle play/pause toggle
