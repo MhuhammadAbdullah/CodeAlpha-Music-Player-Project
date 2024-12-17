@@ -82,6 +82,8 @@ function loadMusic(index) {
 }
 
 
+
+
 // Play music
 function playMusic() {
   wrapper.classList.add("paused");
@@ -103,6 +105,9 @@ function pauseMusic() {
 }
 
 
+
+
+
 // Handle previous and next buttons
 function prevMusic() {
   musicIndex = musicIndex === 0 ? musicLibrary.length - 1 : musicIndex - 1;
@@ -115,6 +120,8 @@ function nextMusic() {
   loadMusic(musicIndex);
   playMusic();
 }
+
+
 
 
 // Update progress bar on music playback
@@ -138,6 +145,10 @@ mainAudio.addEventListener("timeupdate", (e) => {
   const totalSec = Math.floor(duration % 60).toString().padStart(2, "0");
   maxDurationEl.textContent = `${totalMin}:${totalSec}`;
 });
+
+
+
+
 
 
 // Handle play/pause toggle
@@ -251,11 +262,8 @@ window.onload = function () {
 // Toggle slider visibility on icon click
 volumeIcon.addEventListener("click", function (e) {
   e.stopPropagation();
-  if (volumeSliderContainer.style.opacity === "1") {
-    hideVolumeSlider(); // Hide with transition
-  } else {
-    showVolumeSlider(); // Show with transition
-  }
+  volumeSliderContainer.style.display =
+    volumeSliderContainer.style.display === "block" ? "none" : "block";
   volumeIcon.classList.toggle("active");
 });
 
@@ -282,26 +290,10 @@ function updateVolumeIcon() {
   if (mainAudio.volume == 1) {
     volumeIcon.className = "fa-solid fa-volume-up"; // Full volume
   } else if (mainAudio.volume <= 0.5 && mainAudio.volume > 0) {
-    volumeIcon.className = "fa-solid fa-volume-down"; // 50% or less
+    volumeIcon.className = "fa-solid fa-volume-down"; // 50% ya usse kam
   } else if (mainAudio.volume == 0) {
     volumeIcon.className = "fa-solid fa-volume-mute"; // Mute
   }
-}
-
-// Smoothly hide the slider
-function hideVolumeSlider() {
-  volumeSliderContainer.style.opacity = "0";
-  setTimeout(() => {
-    volumeSliderContainer.style.display = "none";
-  }, 300); // Match transition duration
-}
-
-// Smoothly show the slider
-function showVolumeSlider() {
-  volumeSliderContainer.style.display = "block";
-  setTimeout(() => {
-    volumeSliderContainer.style.opacity = "1";
-  }, 10); // Slight delay for transition
 }
 
 // Hide slider when clicking outside the volume area
@@ -310,38 +302,9 @@ document.addEventListener("click", function (e) {
     !volumeSliderContainer.contains(e.target) &&
     !volumeIcon.contains(e.target)
   ) {
-    hideVolumeSlider();
+    volumeSliderContainer.style.display = "none";
     volumeIcon.classList.remove("active");
   }
 });
 
 
-// Select the element where the time will be displayed
-const timeElement = document.querySelector(".phone-time p");
-
-// Function to update the time
-function updateTime() {
-  const now = new Date(); // Get current date and time
-
-  let hours = now.getHours(); // Get hours
-  let minutes = now.getMinutes(); // Get minutes
-  let isPM = hours >= 12; // Determine if it's PM
-
-  // Convert hours to 12-hour format
-  hours = hours % 12 || 12;
-
-  // Format minutes to always have 2 digits
-  minutes = minutes.toString().padStart(2, "0");
-
-  // Set AM/PM
-  const period = isPM ? "PM" : "AM";
-
-  // Update the time in the element
-  timeElement.textContent = `${hours}:${minutes} ${period}`;
-}
-
-// Call updateTime once immediately
-updateTime();
-
-// Update the time every second
-setInterval(updateTime, 1000);
